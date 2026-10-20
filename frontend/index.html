@@ -3,36 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Connexion</title>
+  <title>Connexion | Spring Boot Tutorial</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="card">
 
-    <!-- Vue : formulaire de connexion -->
-    <section id="login-view">
-      <h1>Connexion</h1>
-      <p class="hint">Compte de test : <b>admin</b> / <b>admin123</b></p>
+    <!-- En-tete : photos des auteurs du tuto -->
+    <header class="card-head">
+      <div class="team">
+        <figure class="member">
+          <!-- Remplace img/membre1.jpg par ta photo -->
+          <div class="avatar" data-initials="P1">
+            <img src="img/membre1.jpg" alt="Photo de Prénom 1" onerror="this.remove()">
+          </div>
+          <figcaption>Prénom 1</figcaption>
+        </figure>
 
-      <form id="login-form" novalidate>
-        <label for="username">Nom d'utilisateur</label>
-        <input id="username" type="text" autocomplete="username" required>
+        <figure class="member">
+          <!-- Remplace img/membre2.jpg par la photo de ton binôme -->
+          <div class="avatar" data-initials="P2">
+            <img src="img/membre2.jpg" alt="Photo de Prénom 2" onerror="this.remove()">
+          </div>
+          <figcaption>Prénom 2</figcaption>
+        </figure>
+      </div>
 
-        <label for="password">Mot de passe</label>
-        <input id="password" type="password" autocomplete="current-password" required>
+      <h1>Spring Boot Login</h1>
+      <p class="subtitle">Tutoriel · Spring Boot + PostgreSQL + Docker</p>
+    </header>
 
-        <p id="error" class="error" role="alert" hidden></p>
-        <button type="submit" id="submit-btn">Se connecter</button>
-      </form>
-    </section>
+    <div class="card-body">
 
-    <!-- Vue : utilisateur connecte -->
-    <section id="welcome-view" hidden>
-      <h1>Bienvenue, <span id="welcome-name"></span></h1>
-      <p class="hint">Vous êtes connecté. L'utilisateur vient de PostgreSQL.</p>
-      <button id="logout-btn" class="secondary">Se déconnecter</button>
-    </section>
+      <!-- Vue : formulaire de connexion -->
+      <section id="login-view">
+        <h2>Connexion</h2>
+        <p class="hint">Compte de test : <b>admin</b> / <b>admin123</b></p>
 
+        <form id="login-form" novalidate>
+          <label for="username">Nom d'utilisateur</label>
+          <input id="username" type="text" autocomplete="username" required>
+
+          <label for="password">Mot de passe</label>
+          <input id="password" type="password" autocomplete="current-password" required>
+
+          <p id="error" class="error" role="alert" hidden></p>
+          <button type="submit" id="submit-btn">Se connecter</button>
+        </form>
+      </section>
+
+      <!-- Vue : utilisateur connecte -->
+      <section id="welcome-view" hidden>
+        <h2>Bienvenue, <span id="welcome-name"></span></h2>
+        <p class="hint">Vous êtes connecté. L'utilisateur vient de PostgreSQL.</p>
+        <button id="logout-btn" class="secondary">Se déconnecter</button>
+      </section>
+
+    </div>
   </main>
   <script src="app.js"></script>
 </body>
