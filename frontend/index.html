@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connexion</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+
+    <!-- Vue : formulaire de connexion -->
+    <section id="login-view">
+      <h1>Connexion</h1>
+      <p class="hint">Compte de test : <b>admin</b> / <b>admin123</b></p>
+
+      <form id="login-form" novalidate>
+        <label for="username">Nom d'utilisateur</label>
+        <input id="username" type="text" autocomplete="username" required>
+
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" autocomplete="current-password" required>
+
+        <p id="error" class="error" role="alert" hidden></p>
+        <button type="submit" id="submit-btn">Se connecter</button>
+      </form>
+    </section>
+
+    <!-- Vue : utilisateur connecte -->
+    <section id="welcome-view" hidden>
+      <h1>Bienvenue, <span id="welcome-name"></span></h1>
+      <p class="hint">Vous êtes connecté. L'utilisateur vient de PostgreSQL.</p>
+      <button id="logout-btn" class="secondary">Se déconnecter</button>
+    </section>
+
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
