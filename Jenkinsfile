@@ -2,47 +2,79 @@
 pipeline {
     agent any
 
-    options {
+options {
         timestamps()
         disableConcurrentBuilds()
     }
-
-    stages {
-
-        stage('1 - Verification de l environnement') {
-            steps {
-                sh '''
-                    echo "Verification de Java..."
-                    java --version
-
-                    echo "Verification de Maven..."
-                    mvn --version
-
-                    echo "Verification de Git..."
-                    git --version
-                '''
-            }
-        }
-
-        stage('2 - Compilation et tests') {
-            steps {
-                sh 'mvn -B -f backend/pom.xml clean verify'
-            }
-        }
-
-        stage('3 - Verification du JAR') {
-            steps {
-                sh '''
-                    echo "Fichiers JAR generes :"
-                    find backend/target -maxdepth 1 -type f -name "*.jar"
-
-                    test -n "$(find backend/target -maxdepth 1 -type f -name "*.jar" -print -quit)"
-                '''
-            }
-        }
+environment {
+     BACKEND_DIR = 'backend'
+     FRONTEND_DIR = 'frontend'
     }
+stages {
 
-    post {
+        stage('1 - Checkout') {
+            steps {
+                 echo 'Recuperation du projet depuis Github'
+                 checkout scm
+            }
+        }
+
+        stage('2 -Verification environment') {
+            steps {
+              sh ''' 
+                    echo "===JAVA==="
+                    java --version
+                    echo "===MAVEN==="
+                    mvn --version
+                    echo "==NODE==="
+                    node --version
+                    echo "===NPM==="
+                    npm --version
+                    
+                   '''
+            }
+        }
+
+        stage('3 - BACKEND BUILD') {
+            steps {
+                 dir("${BACKEND_DIR}"){
+                 sh 'mvn -B clean package -DskipTests '
+                 }
+            }
+        }
+        stage('4 - BACKEND Tests') {
+	   steps{
+	    dir("${BACKEND_DIR}"){
+	     sh 'mvn -B test'
+	    }
+	    
+	    }
+	}
+	stage('5 - frontend Dependencies'){
+	  steps{
+	  dir("${FRONTEND_DIR}"){
+	  sh 'npm ci'}
+	  }
+	}
+	stage('6 - Frontend build') {
+	steps{
+	dir("${FRONTEND_DIR}"){
+	sh 'npm run build'
+	}
+	}
+	}
+	stage('7 - Frontend Test'){
+	  steps{
+	  dir("${FRONTEND_DIR}"){
+	   sh 'npm test -- --watch=false'
+	   }
+	  }
+	}
+        
+    }
+	
+	
+post {
         always {
             junit(
                 testResults: 'backend/target/surefire-reports/*.xml',
@@ -56,11 +88,11 @@ pipeline {
         }
 
         success {
-            echo 'Pipeline reussi : compilation et verification terminees.'
+            echo 'CI reussie : backend et front valides.'
         }
 
         failure {
-            echo 'Pipeline echoue : consulte les logs pour identifier le probleme.'
+            echo 'CI  echoue : verifer les logs Jenkins.'
         }
     }
 }

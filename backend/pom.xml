@@ -38,6 +38,7 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <!-- Uniquement BCrypt (pas tout Spring Security) pour garder le tuto simple -->
         <dependency>
             <groupId>org.springframework.security</groupId>
