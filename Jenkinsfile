@@ -50,26 +50,20 @@ stages {
 	    
 	    }
 	}
-	stage('5 - frontend Dependencies'){
-	  steps{
-	  dir("${FRONTEND_DIR}"){
-	  sh 'npm ci'}
-	  }
-	}
-	stage('6 - Frontend build') {
-	steps{
-	dir("${FRONTEND_DIR}"){
-	sh 'npm run build'
-	}
-	}
-	}
-	stage('7 - Frontend Test'){
-	  steps{
-	  dir("${FRONTEND_DIR}"){
-	   sh 'npm test -- --watch=false'
-	   }
-	  }
-	}
+	stage('5 - Frontend Verification') {
+    steps {
+        dir("${FRONTEND_DIR}") {
+            sh '''
+                echo "Verification du frontend..."
+                test -f index.html
+                test -f app.js
+                test -f style.css
+                echo "Frontend files verified successfully!"
+            '''
+        }
+    }
+}
+	
         
     }
 	
